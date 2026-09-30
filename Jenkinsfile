@@ -84,7 +84,7 @@ pipeline {
             steps {
                 powershell '''
                     jmeter -n `
-                        -t jmeter\\test_plan.jmx `
+                        -t jmeter\\ProjectQaops.jmx `
                         -l jmeter\\results.jtl `
                         -j jmeter.log
                 '''
