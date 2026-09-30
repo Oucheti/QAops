@@ -2,3 +2,4 @@ flask
 pytest
 selenium
 requests
+allure-pytest
