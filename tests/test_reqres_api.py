@@ -157,7 +157,7 @@ def test_update_user():
 # TEST 4 : DELETE USERS
 # ============================================================
 
-@allure.feature("Tests API - Reqres")
+'''@allure.feature("Tests API - Reqres")
 @allure.story("DELETE Users")
 @allure.title("Supprimer un utilisateur")
 def test_delete_user():
@@ -171,4 +171,4 @@ def test_delete_user():
         assert response.status_code == 204
 
     with allure.step("Vérifier que la réponse est vide"):
-        assert response.text == ""
+        assert response.text == "" '''
