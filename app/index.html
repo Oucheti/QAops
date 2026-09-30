@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Gestion des étudiants</title>
+
+    <link rel="stylesheet" href="/style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Application web de gestion des étudiants</h1>
+
+    <p id="welcome-message">
+        Bienvenue dans notre application.
+    </p>
+
+
+    <!-- FORMULAIRE -->
+
+    <section>
+
+        <h2>Inscription d'un étudiant</h2>
+
+        <form id="student-form">
+
+            <label for="first_name">
+                Prénom
+            </label>
+
+            <input
+                type="text"
+                id="first_name"
+                placeholder="Votre prénom"
+                required
+            >
+
+
+            <label for="last_name">
+                Nom
+            </label>
+
+            <input
+                type="text"
+                id="last_name"
+                placeholder="Votre nom"
+                required
+            >
+
+
+            <label for="email">
+                Email
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="exemple@email.com"
+                required
+            >
+
+
+            <label for="age">
+                Âge
+            </label>
+
+            <input
+                type="number"
+                id="age"
+                min="16"
+                max="100"
+                required
+            >
+
+
+            <!-- RADIO -->
+
+            <p>Genre :</p>
+
+            <label class="radio-label">
+
+                <input
+                    type="radio"
+                    name="gender"
+                    value="Homme"
+                >
+
+                Homme
+
+            </label>
+
+
+            <label class="radio-label">
+
+                <input
+                    type="radio"
+                    name="gender"
+                    value="Femme"
+                >
+
+                Femme
+
+            </label>
+
+
+            <!-- DROPDOWN -->
+
+            <label for="formation">
+                Formation
+            </label>
+
+            <select id="formation">
+
+                <option value="">
+                    -- Sélectionner --
+                </option>
+
+                <option value="Informatique">
+                    Informatique
+                </option>
+
+                <option value="Gestion">
+                    Gestion
+                </option>
+
+                <option value="Commerce">
+                    Commerce
+                </option>
+
+            </select>
+
+
+            <button
+                type="submit"
+                id="submit-button"
+            >
+                Inscrire l'étudiant
+            </button>
+
+        </form>
+
+        <p id="result"></p>
+
+    </section>
+
+
+    <!-- BOUTONS -->
+
+    <section>
+
+        <h2>Tests des boutons</h2>
+
+        <button
+            id="hello-button"
+            onclick="showHello()"
+        >
+            Tester le bouton
+        </button>
+
+
+        <button
+            id="popup-button"
+            onclick="showPopup()"
+        >
+            Afficher Popup
+        </button>
+
+
+        <p id="button-result"></p>
+
+    </section>
+
+
+    <!-- POPUP -->
+
+    <div id="popup" class="popup">
+
+        <div class="popup-content">
+
+            <h2>Popup de test</h2>
+
+            <p>
+                Ceci est une popup pour les tests Selenium.
+            </p>
+
+            <button
+                id="close-popup"
+                onclick="closePopup()"
+            >
+                Fermer
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- LISTE DES ETUDIANTS -->
+
+    <section>
+
+        <h2>Liste des étudiants</h2>
+
+        <table>
+
+            <thead>
+
+            <tr>
+
+                <th>ID</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Âge</th>
+
+            </tr>
+
+            </thead>
+
+            <tbody id="students-table">
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+</div>
+
+
+<script>
+
+    // ==========================================
+    // Bouton
+    // ==========================================
+
+    function showHello() {
+
+        document.getElementById(
+            "button-result"
+        ).innerText =
+            "Bouton correctement exécuté.";
+
+    }
+
+
+    // ==========================================
+    // Popup
+    // ==========================================
+
+    function showPopup() {
+
+        document.getElementById(
+            "popup"
+        ).style.display = "flex";
+
+    }
+
+
+    function closePopup() {
+
+        document.getElementById(
+            "popup"
+        ).style.display = "none";
+
+    }
+
+
+    // ==========================================
+    // Création étudiant
+    // ==========================================
+
+    document.getElementById(
+        "student-form"
+    ).addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+            const data = {
+
+                first_name:
+                    document.getElementById(
+                        "first_name"
+                    ).value,
+
+                last_name:
+                    document.getElementById(
+                        "last_name"
+                    ).value,
+
+                email:
+                    document.getElementById(
+                        "email"
+                    ).value,
+
+                age:
+                    parseInt(
+                        document.getElementById(
+                            "age"
+                        ).value
+                    )
+
+            };
+
+
+            const response = await fetch(
+                "/api/students",
+                {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify(data)
+
+                }
+            );
+
+
+            const result =
+                await response.json();
+
+
+            document.getElementById(
+                "result"
+            ).innerText =
+                result.message;
+
+
+            if (response.ok) {
+
+                document.getElementById(
+                    "student-form"
+                ).reset();
+
+                loadStudents();
+
+            }
+
+        }
+    );
+
+
+    // ==========================================
+    // Charger les étudiants
+    // ==========================================
+
+    async function loadStudents() {
+
+        const response = await fetch(
+            "/api/students"
+        );
+
+        const result =
+            await response.json();
+
+
+        const table =
+            document.getElementById(
+                "students-table"
+            );
+
+
+        table.innerHTML = "";
+
+
+        result.data.forEach(
+            function(student) {
+
+                const row =
+                    document.createElement("tr");
+
+
+                row.innerHTML = `
+
+                    <td>${student.id}</td>
+
+                    <td>${student.first_name}</td>
+
+                    <td>${student.last_name}</td>
+
+                    <td>${student.email}</td>
+
+                    <td>${student.age}</td>
+
+                `;
+
+
+                table.appendChild(row);
+
+            }
+        );
+
+    }
+
+
+    // Charger au démarrage
+
+    loadStudents();
+
+</script>
+
+</body>
+
+</html>
