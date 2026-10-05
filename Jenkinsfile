@@ -72,7 +72,7 @@ pipeline {
             steps {
                 powershell '''
                     newman run postman\\collection.json `
-                        --reporters "cli,junit" `
+                        --reporters '"cli,junit"' `
                         --reporter-junit-export newman-results.xml
                 '''
             }
