@@ -14,14 +14,44 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test(\"Statut HTTP = 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"La réponse est en JSON\", function () {\r\n    pm.response.to.be.json;\r\n});\r\n\r\nconst data = pm.response.json();\r\n\r\npm.test(\"Le champ page existe\", function () {\r\n    pm.expect(data).to.have.property(\"page\");\r\n});\r\n\r\npm.test(\"Le champ data existe\", function () {\r\n    pm.expect(data).to.have.property(\"data\");\r\n});\r\n\r\npm.test(\"data est un tableau\", function () {\r\n    pm.expect(data.data).to.be.an(\"array\");\r\n});\r\n\r\npm.test(\"Le numéro de page est 2\", function () {\r\n    pm.expect(data.page).to.eql(2);\r\n});"
+              "pm.test(\"Statut HTTP = 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"La réponse est en JSON\", function () {",
+              "    pm.response.to.be.json;",
+              "});",
+              "",
+              "const body = pm.response.json();",
+              "",
+              "pm.test(\"Le champ page existe\", function () {",
+              "    pm.expect(body).to.have.property(\"page\");",
+              "});",
+              "",
+              "pm.test(\"Le champ data existe\", function () {",
+              "    pm.expect(body).to.have.property(\"data\");",
+              "});",
+              "",
+              "pm.test(\"data est un tableau\", function () {",
+              "    pm.expect(body.data).to.be.an(\"array\");",
+              "});",
+              "",
+              "pm.test(\"Le numéro de page est 2\", function () {",
+              "    pm.expect(body.page).to.eql(2);",
+              "});"
             ]
           }
         }
       ],
       "request": {
         "method": "GET",
-        "header": [],
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "{{apiKey}}",
+            "type": "text"
+          }
+        ],
         "url": {
           "raw": "https://reqres.in/api/users?page=2",
           "protocol": "https",
@@ -51,23 +81,49 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test(\"Statut HTTP = 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"La réponse est en JSON\", function () {\r\n    pm.response.to.be.json;\r\n});\r\n\r\nconst data = pm.response.json();\r\n\r\npm.test(\"Le champ id existe\", function () {\r\n    pm.expect(data).to.have.property(\"id\");\r\n});\r\n\r\npm.test(\"Le champ createdAt existe\", function () {\r\n    pm.expect(data).to.have.property(\"createdAt\");\r\n});\r\n\r\npm.test(\"Le nom est correct\", function () {\r\n    pm.expect(data.name).to.eql(\"Abdelhaq\");\r\n});\r\n\r\npm.test(\"Le job est correct\", function () {\r\n    pm.expect(data.job).to.eql(\"QA Engineer\");\r\n});"
+              "pm.test(\"Statut HTTP = 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test(\"La réponse est en JSON\", function () {",
+              "    pm.response.to.be.json;",
+              "});",
+              "",
+              "const body = pm.response.json();",
+              "",
+              "pm.test(\"Le champ id existe\", function () {",
+              "    pm.expect(body).to.have.property(\"id\");",
+              "});",
+              "",
+              "pm.test(\"Le champ createdAt existe\", function () {",
+              "    pm.expect(body).to.have.property(\"createdAt\");",
+              "});",
+              "",
+              "pm.test(\"Le nom est correct\", function () {",
+              "    pm.expect(body.name).to.eql(\"Abdelhaq\");",
+              "});",
+              "",
+              "pm.test(\"Le job est correct\", function () {",
+              "    pm.expect(body.job).to.eql(\"QA Engineer\");",
+              "});"
             ]
           }
         }
       ],
       "request": {
         "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\"name\":\"Abdelhaq\",\"job\":\"QA Engineer\"}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "{{apiKey}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
           }
-        },
+        ],
         "url": {
           "raw": "https://reqres.in/api/users",
           "protocol": "https",
@@ -79,6 +135,15 @@
             "api",
             "users"
           ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\":\"Abdelhaq\",\"job\":\"QA Engineer\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
         }
       },
       "response": []
@@ -91,23 +156,45 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test(\"Statut HTTP = 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"La réponse est en JSON\", function () {\r\n    pm.response.to.be.json;\r\n});\r\n\r\nconst data = pm.response.json();\r\n\r\npm.test(\"Le nom est correct\", function () {\r\n    pm.expect(data.name).to.eql(\"Abdelhaq\");\r\n});\r\n\r\npm.test(\"Le job est correct\", function () {\r\n    pm.expect(data.job).to.eql(\"Senior QA Engineer\");\r\n});\r\n\r\npm.test(\"Le champ updatedAt existe\", function () {\r\n    pm.expect(data).to.have.property(\"updatedAt\");\r\n});"
+              "pm.test(\"Statut HTTP = 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"La réponse est en JSON\", function () {",
+              "    pm.response.to.be.json;",
+              "});",
+              "",
+              "const body = pm.response.json();",
+              "",
+              "pm.test(\"Le nom est correct\", function () {",
+              "    pm.expect(body.name).to.eql(\"Abdelhaq\");",
+              "});",
+              "",
+              "pm.test(\"Le job est correct\", function () {",
+              "    pm.expect(body.job).to.eql(\"Senior QA Engineer\");",
+              "});",
+              "",
+              "pm.test(\"Le champ updatedAt existe\", function () {",
+              "    pm.expect(body).to.have.property(\"updatedAt\");",
+              "});"
             ]
           }
         }
       ],
       "request": {
         "method": "PUT",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\"name\":\"Abdelhaq\",\"job\":\"Senior QA Engineer\"}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "{{apiKey}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
           }
-        },
+        ],
         "url": {
           "raw": "https://reqres.in/api/users/2",
           "protocol": "https",
@@ -120,6 +207,15 @@
             "users",
             "2"
           ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\":\"Abdelhaq\",\"job\":\"Senior QA Engineer\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
         }
       },
       "response": []
@@ -132,14 +228,26 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test(\"Statut HTTP = 204\", function () {\r\n    pm.response.to.have.status(204);\r\n});\r\n\r\npm.test(\"La réponse est vide\", function () {\r\n    pm.expect(pm.response.text()).to.eql(\"\");\r\n});"
+              "pm.test(\"Statut HTTP = 204\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});",
+              "",
+              "pm.test(\"La réponse est vide\", function () {",
+              "    pm.expect(pm.response.text()).to.eql(\"\");",
+              "});"
             ]
           }
         }
       ],
       "request": {
         "method": "DELETE",
-        "header": [],
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "{{apiKey}}",
+            "type": "text"
+          }
+        ],
         "url": {
           "raw": "https://reqres.in/api/users/2",
           "protocol": "https",
@@ -155,6 +263,13 @@
         }
       },
       "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "apiKey",
+      "value": "",
+      "type": "string"
     }
   ]
 }

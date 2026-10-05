@@ -72,6 +72,7 @@ pipeline {
             steps {
                 powershell '''
                     newman run postman\\collection.json `
+                        --env-var "apiKey=$env:REQRES_API_KEY" `
                         --reporters '"cli,junit"' `
                         --reporter-junit-export newman-results.xml
                 '''
