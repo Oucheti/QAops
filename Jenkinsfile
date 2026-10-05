@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         REQRES_API_KEY = credentials('reqres-api-key')
-        JMETER_HOME = 'C:\Program Files\apache-jmeter-5.6.3'
+        JMETER_HOME = 'C:\\Program Files\\apache-jmeter-5.6.3'
     }
 
     stages {
