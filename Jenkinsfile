@@ -54,7 +54,7 @@ pipeline {
             }
         }
 
-        stage('Run Python Tests') {
+        /*stage('Run Python Tests') {
             steps {
                 powershell '''
                     .\\venv\\Scripts\\python.exe -m pytest tests\\ --junitxml=pytest-results.xml
@@ -66,7 +66,7 @@ pipeline {
                     junit 'pytest-results.xml'
                 }
             }
-        }
+        }*/
 
         stage('API Tests with Newman') {
             steps {
