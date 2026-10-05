@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         REQRES_API_KEY = credentials('reqres-api-key')
+        JMETER_HOME = 'C:\Program Files\apache-jmeter-5.6.3'
     }
 
     stages {
@@ -88,25 +89,21 @@ pipeline {
         stage('Performance Tests - JMeter') {
             steps {
                 powershell '''
-                    jmeter -n `
+                    if (Test-Path jmeter\\results.jtl) { Remove-Item jmeter\\results.jtl -Force }
+
+                    & "$env:JMETER_HOME\\bin\\jmeter.bat" -n `
                         -t jmeter\\ProjectQaops.jmx `
                         -l jmeter\\results.jtl `
-                        -j jmeter.log
+                        -j jmeter\\jmeter.log
+
+                    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
                 '''
             }
-        }
-    }
 
-    post {
-        always {
-            powershell '''
-                if (Test-Path "$PWD\\flask.pid") {
-                    $procId = Get-Content "$PWD\\flask.pid"
-                    Write-Host "Arret du processus Flask (PID: $procId)..."
-                    Stop-Process -Id $procId -Force -ErrorAction SilentlyContinue
-                    Remove-Item "$PWD\\flask.pid" -ErrorAction SilentlyContinue
+            post {
+                always {
+                    archiveArtifacts artifacts: 'jmeter/results.jtl, jmeter/jmeter.log', allowEmptyArchive: true
                 }
-            '''
+            }
         }
-    }
 }
