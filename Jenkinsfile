@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        REQRES_API_KEY = credentials('reqres-api-key')
+    }
+
     stages {
 
         stage('Install Dependencies') {

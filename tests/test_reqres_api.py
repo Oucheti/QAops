@@ -1,4 +1,3 @@
-import requests
 import allure
 
 
@@ -12,10 +11,10 @@ BASE_URL = "https://reqres.in/api"
 @allure.feature("Tests API - Reqres")
 @allure.story("GET Users")
 @allure.title("Récupérer la liste des utilisateurs")
-def test_get_users():
+def test_get_users(api):
 
     with allure.step("Envoyer une requête GET"):
-        response = requests.get(
+        response = api.get(
             f"{BASE_URL}/users",
             params={"page": 2}
         )
@@ -67,7 +66,7 @@ def test_get_users():
 @allure.feature("Tests API - Reqres")
 @allure.story("POST Users")
 @allure.title("Créer un utilisateur")
-def test_create_user():
+def test_create_user(api):
 
     payload = {
         "name": "Abdelhaq",
@@ -75,7 +74,7 @@ def test_create_user():
     }
 
     with allure.step("Envoyer une requête POST"):
-        response = requests.post(
+        response = api.post(
             f"{BASE_URL}/users",
             json=payload
         )
@@ -115,7 +114,7 @@ def test_create_user():
 @allure.feature("Tests API - Reqres")
 @allure.story("PUT Users")
 @allure.title("Modifier un utilisateur")
-def test_update_user():
+def test_update_user(api):
 
     payload = {
         "name": "Abdelhaq",
@@ -123,7 +122,7 @@ def test_update_user():
     }
 
     with allure.step("Envoyer une requête PUT"):
-        response = requests.put(
+        response = api.put(
             f"{BASE_URL}/users/2",
             json=payload
         )
@@ -157,13 +156,13 @@ def test_update_user():
 # TEST 4 : DELETE USERS
 # ============================================================
 
-'''@allure.feature("Tests API - Reqres")
+@allure.feature("Tests API - Reqres")
 @allure.story("DELETE Users")
 @allure.title("Supprimer un utilisateur")
-def test_delete_user():
+def test_delete_user(api):
 
     with allure.step("Envoyer une requête DELETE"):
-        response = requests.delete(
+        response = api.delete(
             f"{BASE_URL}/users/2"
         )
 
@@ -171,4 +170,4 @@ def test_delete_user():
         assert response.status_code == 204
 
     with allure.step("Vérifier que la réponse est vide"):
-        assert response.text == "" '''
+        assert response.text == ""
